@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://dshcddytq5tav"]
+
+[ext_resource type="Texture2D" uid="uid://xscci77qcb7m" path="res://assets/sprites/background.png" id="1_0x55f"]
+[ext_resource type="Script" path="res://space.cs" id="1_pn7bs"]
+
+[sub_resource type="Curve2D" id="Curve2D_ogmpo"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 350, 20, 0, 0, 0, 0, 350, 160)
+}
+point_count = 2
+
+[node name="Space" type="Node2D"]
+script = ExtResource("1_pn7bs")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_0x55f")
+centered = false
+
+[node name="ShipSpawn" type="Marker2D" parent="."]
+position = Vector2(48, 88)
+
+[node name="AstroidZone" type="Path2D" parent="."]
+curve = SubResource("Curve2D_ogmpo")
+
+[node name="AstroidSpawn" type="PathFollow2D" parent="AstroidZone"]
+position = Vector2(350, 20)
+rotation = 1.5708
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="OnSpawnTimer"]

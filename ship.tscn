@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn7f5am5ni5qy"]
+
+[ext_resource type="Texture2D" uid="uid://cmtw0uw44e7i4" path="res://assets/sprites/player1.png" id="1_ou1p4"]
+[ext_resource type="Script" path="res://ship.cs" id="1_ttev2"]
+[ext_resource type="Texture2D" uid="uid://i716gn4nnh1q" path="res://assets/sprites/player2.png" id="2_ocu0g"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bdyjq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ou1p4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ocu0g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5trqc"]
+radius = 7.0
+
+[node name="Ship" type="Area2D"]
+script = ExtResource("1_ttev2")
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bdyjq")
+autoplay = "default"
+frame_progress = 0.845666
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5trqc")
+
+[node name="ReloadTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="area_entered" from="." to="." method="OnHit"]
+[connection signal="timeout" from="ReloadTimer" to="." method="OnReloadTimer"]

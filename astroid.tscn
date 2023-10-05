@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://ge1aonevivhv"]
+
+[ext_resource type="Script" path="res://Astroid.cs" id="1_7juuq"]
+[ext_resource type="Texture2D" uid="uid://b1jjuuwwr80y2" path="res://assets/sprites/asteroid1.png" id="2_umgee"]
+[ext_resource type="Texture2D" uid="uid://ddkqm21djkxil" path="res://assets/sprites/asteroid2.png" id="3_kjdne"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vckf2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_umgee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kjdne")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ahvos"]
+radius = 7.0
+
+[node name="Astroid" type="Area2D" groups=["astroids"]]
+script = ExtResource("1_7juuq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vckf2")
+frame_progress = 0.85569
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ahvos")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -0.5)
+scale = Vector2(0.8, 0.75)
+
+[connection signal="area_entered" from="." to="." method="OnHit"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnOffScreen"]
