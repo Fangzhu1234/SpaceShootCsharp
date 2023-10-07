@@ -30,7 +30,7 @@ public partial class ship : Area2D
 		Position = new Vector2(
 			Mathf.Clamp(Position.X, ShipSize.X/2, ScreenSize.X-ShipSize.X/2),
 			Mathf.Clamp(Position.Y, ShipSize.Y/2, ScreenSize.Y-ShipSize.Y/2));
-		if (Input.IsActionPressed("fire")) {
+		if (Input.IsActionPressed("fire") && _reload == false) {
 			EmitSignal(SignalName.ShipFire, Position);
 			GetNode<Timer>("ReloadTimer").Start();
 			_reload = true;
@@ -44,8 +44,12 @@ public partial class ship : Area2D
 	{
 		if (obj.IsInGroup("astroids"))
 		{
-			EmitSignal(SignalName.ShipHit, Position);
+ 			CallDeferred("DeferredFunction");
 			QueueFree();
 		}
+	}
+	private void DeferredFunction()
+	{
+		EmitSignal(SignalName.ShipHit, Position);
 	}
 }
